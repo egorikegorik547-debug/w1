@@ -1,0 +1,330 @@
+
+@theme {
+  --font-pixel: "Press Start 2P", ui-monospace, monospace;
+  --font-body: "Pixelify Sans", ui-monospace, monospace;
+}
+
+html,
+body,
+#root,
+#__next {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #0d1a2a;
+}
+
+body {
+  font-family: "Pixelify Sans", ui-monospace, monospace;
+  color: #f3e3c0;
+  user-select: none;
+  -webkit-user-select: none;
+  font-size: 15px;
+}
+
+canvas {
+  image-rendering: pixelated;
+  display: block;
+}
+
+/* Слой интерфейса: сам прозрачен для мыши, а его прямые потомки (окна) — нет.
+   Элементы с классом pointer-events-none (utilities) переопределяют это правило. */
+@layer base {
+  .ui-layer > * {
+    pointer-events: auto;
+  }
+}
+
+img.pix {
+  image-rendering: pixelated;
+}
+
+/* ---------- Пиксельные панели ---------- */
+.px-panel {
+  position: relative;
+  background: linear-gradient(#3b291c, #2b1d14);
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 0 0 2px #8a6038,
+    inset 0 0 0 4px #1d130c,
+    0 5px 0 2px rgba(0, 0, 0, 0.35);
+}
+
+.px-panel-dark {
+  background: linear-gradient(#251912, #1a110c);
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 0 0 2px #5a3e26,
+    inset 0 0 0 4px #120b07,
+    0 5px 0 2px rgba(0, 0, 0, 0.35);
+}
+
+.px-inset {
+  background: #1a110c;
+  box-shadow:
+    inset 0 0 0 2px #0f0906,
+    inset 0 2px 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.px-btn {
+  position: relative;
+  background: linear-gradient(#6a4a2c, #4a321e);
+  color: #f6e8c4;
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 2px 0 0 #a8794a,
+    inset 0 -3px 0 0 #2e1d10,
+    0 3px 0 2px #0f0906;
+  transition: filter 0.08s, transform 0.08s;
+  cursor: pointer;
+}
+.px-btn:hover:not(:disabled) {
+  filter: brightness(1.18);
+}
+.px-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 2px 0 0 #a8794a,
+    inset 0 -3px 0 0 #2e1d10,
+    0 1px 0 2px #0f0906;
+}
+.px-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.px-btn.active {
+  background: linear-gradient(#e0a838, #b27a1c);
+  color: #2a1608;
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 2px 0 0 #ffe08a,
+    inset 0 -3px 0 0 #7a4a0c,
+    0 3px 0 2px #0f0906;
+}
+.px-btn-green {
+  background: linear-gradient(#4a9a3a, #2f6a28);
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 2px 0 0 #8ae070,
+    inset 0 -3px 0 0 #1c4a18,
+    0 3px 0 2px #0f0906;
+}
+.px-btn-gold {
+  background: linear-gradient(#f0b840, #c07a14);
+  color: #2a1608;
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 2px 0 0 #fff0a8,
+    inset 0 -3px 0 0 #8a4e08,
+    0 3px 0 2px #0f0906;
+}
+.px-btn-red {
+  background: linear-gradient(#a84438, #78281e);
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 2px 0 0 #e88a7a,
+    inset 0 -3px 0 0 #4a140c,
+    0 3px 0 2px #0f0906;
+}
+
+.px-title {
+  font-family: "Press Start 2P", monospace;
+  color: #ffe9a8;
+  text-shadow:
+    0 4px 0 #b8741c,
+    0 8px 0 #6a3a10,
+    4px 0 0 #1a0e06,
+    -4px 0 0 #1a0e06,
+    0 -4px 0 #1a0e06,
+    4px 4px 0 #1a0e06,
+    -4px 4px 0 #1a0e06,
+    0 12px 0 #1a0e06,
+    4px 8px 0 #1a0e06,
+    -4px 8px 0 #1a0e06;
+}
+
+.px-bar {
+  background: #120b07;
+  box-shadow: inset 0 0 0 2px #0f0906;
+  position: relative;
+  overflow: hidden;
+}
+.px-bar > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(#ffe27a, #e0a020);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.5);
+  transition: width 0.2s linear;
+}
+
+.scroll-px::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.scroll-px::-webkit-scrollbar-track {
+  background: #1a110c;
+}
+.scroll-px::-webkit-scrollbar-thumb {
+  background: #8a6038;
+  border: 2px solid #1a110c;
+}
+.scroll-px::-webkit-scrollbar-corner {
+  background: #1a110c;
+}
+
+@keyframes pulse-px {
+  0%,
+  100% {
+    filter: brightness(1);
+    transform: translateY(0);
+  }
+  50% {
+    filter: brightness(1.35);
+    transform: translateY(-2px);
+  }
+}
+.pulse-px {
+  animation: pulse-px 1s steps(2, end) infinite;
+}
+
+@keyframes blink-px {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.blink-px {
+  animation: blink-px 1s steps(1, end) infinite;
+}
+
+@keyframes toast-in {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.toast-in {
+  animation: toast-in 0.25s steps(5, end);
+}
+
+@keyframes flame-px {
+  0%,
+  100% {
+    transform: scaleY(1) translateX(0);
+  }
+  33% {
+    transform: scaleY(1.12) translateX(1px);
+  }
+  66% {
+    transform: scaleY(0.94) translateX(-1px);
+  }
+}
+.flame-px {
+  animation: flame-px 0.45s steps(3, end) infinite;
+  transform-origin: bottom center;
+}
+
+@keyframes spin-px {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin-px {
+  animation: spin-px 1s steps(8, end) infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-up {
+  animation: fade-up 0.5s steps(6, end) both;
+}
+
+@keyframes tt-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 8px #ffb34766;
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: 0 0 22px #ffb347cc;
+    filter: brightness(1.2);
+  }
+}
+.tt-pulse {
+  animation: tt-pulse 1.6s ease-in-out infinite;
+}
+
+.px-range {
+  appearance: none;
+  height: 10px;
+  background: #120b07;
+  box-shadow: inset 0 0 0 2px #0f0906;
+  outline: none;
+  cursor: pointer;
+}
+.px-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 22px;
+  background: linear-gradient(#f0b840, #c07a14);
+  box-shadow: 0 0 0 2px #0f0906;
+}
+.px-range::-moz-range-thumb {
+  width: 16px;
+  height: 22px;
+  border: none;
+  border-radius: 0;
+  background: linear-gradient(#f0b840, #c07a14);
+  box-shadow: 0 0 0 2px #0f0906;
+}
+
+.px-card {
+  position: relative;
+  background: linear-gradient(#2e2016, #20150e);
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 0 0 2px #5a3e26;
+  cursor: pointer;
+  transition: filter 0.08s, transform 0.08s;
+  text-align: left;
+}
+.px-card:hover {
+  filter: brightness(1.15);
+}
+.px-card.sel {
+  background: linear-gradient(#5a3e12, #3a2608);
+  box-shadow:
+    0 0 0 2px #0f0906,
+    inset 0 0 0 2px #ffcf6a,
+    0 0 18px #ffcf6a55;
+}
+
+@keyframes tt-px {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+.tt-pulse-px {
+  animation: tt-px 0.9s steps(2) infinite;
+}
